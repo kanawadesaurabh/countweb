@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+
+</head>
+
+<body>
+    <div id="countdown">
+        <div class="number">
+            <span class="days time"></span>
+            <span class="text">Days</span>
+        </div>
+        <div class="number">
+            <span class="hours time"></span>
+            <span class="text">Hours</span>
+        </div>
+        <div class="number">
+            <span class="minutes time"></span>
+            <span class="text">Minutes</span>
+        </div>
+        <div class="number">
+            <span class="seconds time"></span>
+            <span class="text">Seconds</span>
+        </div>
+    </div>
+
+
+    <style>
+        body {
+            background-image: url(img3.jpeg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #countdown {
+            margin-left: 20vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .number {
+                font-size: 4.5vw;
+                position: relative;
+                padding-bottom: 2vw;
+
+                &:not(:last-child) {
+                    margin-right: 4vw;
+
+                    &::after {
+                        content: ":";
+                        position: absolute;
+                        right: -2.5vw;
+                        top: -0.5vw;
+                    }
+                }
+            }
+
+            .text {
+                font-size: 1.3vw;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(#000, 0.65);
+            }
+        }
+    </style>
+
+
+
+<script>
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date());
+        let seconds = Math.floor((t / 1000) % 60);
+        let minutes = Math.floor((t / 1000 / 60) % 60);
+        let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+        let days = Math.floor(t / (1000 * 60 * 60 * 24));
+        return {
+            total: t,
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    }
+
+    function initializeClock(id, endtime) {
+        let clock = document.getElementById(id);
+        let daysSpan = clock.querySelector(".days");
+        let hoursSpan = clock.querySelector(".hours");
+        let minutesSpan = clock.querySelector(".minutes");
+        let secondsSpan = clock.querySelector(".seconds");
+
+        function updateClock() {
+            let t = getTimeRemaining(endtime);
+
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = ("0" + t.hours).slice(-2);
+            minutesSpan.innerHTML = ("0" + t.minutes).slice(-2);
+            secondsSpan.innerHTML = ("0" + t.seconds).slice(-2);
+
+            if (t.total <= 0) {
+                clearInterval(timeinterval);
+            }
+        }
+
+        updateClock();
+        var timeinterval = setInterval(updateClock, 1000);
+    }
+
+    const deadline = "February 19 2024";
+    initializeClock("countdown", deadline);
+
+</script>
+
+
+</body>
+
+</html>
